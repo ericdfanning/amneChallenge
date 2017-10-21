@@ -16,3 +16,4 @@ fs.writeFile(FILE_NAME, solution, 'utf-8', function(err, data) {
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
+
