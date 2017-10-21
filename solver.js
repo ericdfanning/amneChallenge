@@ -7,7 +7,7 @@ const a = 'amneExampleInput'
 const b = 'input2'
 const c = 'maxInput'
 
-var file = a
+var file = b
 
 fs.readFile(file, 'utf8', function(err, contents) {
 	let firstLine = contents.split('\n')[0]
@@ -26,45 +26,69 @@ var scale = {
 	curVal: 0
 }
 
+var ranges = []
+
+// 7 13 47 12 23 89 4 56 13 4 4 87 71 22
+
 function solve(n, wind, prices) {
 	var solution = ''
-
 	// solution += helper(0, wind, prices.slice(0, 0 + wind))
 	// addOthers(prices[wind], scale.bgnLngt, scale.bgnVal)
 	// iterate over the prices array up until a full window can not be completed
   for (let i = 0; i < prices.length - wind + 1; i++) {
-  	solution += helper(i, wind, prices.slice(i, i + wind))
+  	solution += helper(wind, prices.slice(i, i + wind))
   	if (i !== prices.length - wind) { // if on the last value, disregard the new line for formats sake
   		solution += '\n'
   	}
   }
+
+  // if (n%wind !== 0) {
+  // 	// console.log('left over ', prices.slice(-wind))
+  // 	solution += '\n'
+  // 	solution += helper(wind, prices.slice(-wind))
+  // }
   // write the answers to output file
-  // console.log(solution)
+  console.log(ranges)
   fs.writeFile('output', solution, 'utf-8', function(err, data) {
     if (err) throw err;
   })
 }
 
+var scale2 = {
+	bgnLngt: 0,
+	bgnVal: 0,
+	endLngt: 0,
+	endVal: 0,
+	endNum: 0,
+	curVal: 0
+}
+
 function addOthers(nextNum, bgnLngt, bgnVal) {
   // handle beginning
-  var temp = doTheMath(bgnLngt)
+  var val = doTheMath(bgnLngt)
   if (bgnVal < 0) {
-  	temp = -temp
+  	val = -val
   }
+  scale.curVal -= scale.bgnVal
+  scale.bgnLngt = bgnLngt - 1
+  scale.bgnVal = val
 
 
 	// handle end
-	if (nextNum > scale.endNum) {
-		console.log('increasing')
-	} else if (nextNum < scale.endNum) {
-		console.log('decreasing')
-	} else {
-		console.log('same number')
+	if (nextNum < scale.endNum && scale.endVal > 0) {
+		scale.endVal = -1
+	} else if (nextNum > scale.endNum && scale.endVal > 0) {
+		scale.endVal = doTheMath(scale.endVal)
+	} else if (nextNum < scale.endNum && scale.endVal < 0) {
+		scale.endVal = -doTheMath(scale.endVal)
+	} else if (nextNum > scale.endNum && scale.endVal < 0) {
+		scale.endVal = 1
 	}
+	scale.curVal += scale.endVal
 	console.log('next num ', nextNum)
 }
 
-function helper(index, wind, prices) {
+function helper(wind, prices) {
   let count = 0
   let increasing = []
   let decreasing = []
@@ -83,6 +107,8 @@ function helper(index, wind, prices) {
 		if (prices[i + 1] > prices[i]) { // handle if trend becomes increasing
 			if (decreasing.length) { // since trend is now increasing, compute the previous decreasing trend
 				total = doTheMath(decreasing.length)
+				decreasing.push(prices[i])
+				ranges.push(decreasing)
 				if (first) {
 					scale.bgnLngt = decreasing.length + 1
 					scale.bgnVal = total
@@ -97,6 +123,8 @@ function helper(index, wind, prices) {
 			if (increasing.length) {// since trend is now decreasing, compute the previous increasing trend
 				// do the math here
 				total = doTheMath(increasing.length)
+				increasing.push(prices[i])
+				ranges.push(increasing)
 				if (first) {
 					scale.bgnLngt = increasing.length + 1
 					scale.bgnVal = total
@@ -111,6 +139,8 @@ function helper(index, wind, prices) {
 			// like above, compute range based on which trend was the last trend. 
 			if (increasing.length) {
 				total = doTheMath(increasing.length)
+				increasing.push(prices[i])
+				ranges.push(increasing)
 				if (first) {
 					scale.bgnLngt = increasing.length + 1
 					scale.bgnVal = total
@@ -120,6 +150,8 @@ function helper(index, wind, prices) {
 				increasing = []
 			} else if (decreasing.length) {
 				total = doTheMath(decreasing.length)
+				decreasing.push(prices[i])
+				ranges.push(decreasing)
 				if (first) {
 					scale.bgnLngt = decreasing.length + 1
 					scale.bgnVal = total
@@ -133,6 +165,7 @@ function helper(index, wind, prices) {
 		if (i === wind - 1) { // handle the last window of the input array of prices. Same methods as above.
 			if (prices[i] > prices[i - 1]) {
 				increasing.push(prices[i])
+				ranges.push(increasing)
 				total = doTheMath(increasing.length - 1)
 				scale.endLngt = increasing.length
 				scale.endVal = total
@@ -142,6 +175,7 @@ function helper(index, wind, prices) {
 
 			} else if (prices[i] < prices[i - 1]) {
 				decreasing.push(prices[i])
+				ranges.push(decreasing)
 				total = doTheMath(decreasing.length - 1)
 				scale.endLngt = decreasing.length
 				scale.endVal = total
@@ -153,8 +187,8 @@ function helper(index, wind, prices) {
 		}
 	}
 	scale.curVal = count
-	console.log('scale', scale)
-	console.log('changed', )
+	// console.log('scale', scale)
+	// console.log('changed', )
 	return count
 }
 
