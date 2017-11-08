@@ -17,3 +17,14 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+// var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+// var today = new Date();
+// var secondDate = new Date(2017,10,24, 14, 00, 00);
+
+// var diffDays = Math.round(Math.abs((secondDate.getHours() - today.getHours())/(oneDay)));
+
+
+
+// https://jsfiddle.net/ubqya9sp/27/
+
+
