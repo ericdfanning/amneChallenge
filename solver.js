@@ -18,12 +18,9 @@ fs.readFile(file, 'utf8', function(err, contents) {
 
 function solve(n, wind, price) {
   var converted = helper(n, price)
-  var arr = []
+  var arr = converted.slice(0, wind - 1)
   var solution = ''
-  for (let i = 0; i < n; i++) {
-    if (arr.length < wind - 1) {
-      arr.push(converted[i])
-    } else {
+  for (let i = wind - 1; i < n; i++) {
       let countPos = 0
       let countNeg = 0
       let total = 0
@@ -44,6 +41,7 @@ function solve(n, wind, price) {
           } 
         }
       }
+
       if (countPos) {
         total += (countPos * countPos + countPos) / 2
         solution += total + '\n'
@@ -56,7 +54,6 @@ function solve(n, wind, price) {
 
       arr.shift()
       arr.push(converted[i])
-    }
   }
   // console.log(solution)
   fs.writeFile('output', solution, function (err) {
