@@ -5,7 +5,7 @@ const a = 'amneExampleInput'
 const b = 'input2'
 const c = 'maxInput'
 
-var file = c
+var file = a
 
 fs.readFile(file, 'utf8', function(err, contents) {
   let firstLine = contents.split('\n')[0]
@@ -47,20 +47,17 @@ function solve(n, wind, price) {
 						  } 
 						}; break;
   				}
-
-  			  if (i === arr.length - 1) {
-
-  			    if (countPos) {
-  			      total += (countPos * countPos + countPos) / 2
-  			      solution += total + '\n'
-  			    } else if (countNeg) {
-  			      total += -((countNeg * countNeg + countNeg) / 2)
-  			      solution += total + '\n'
-  			    } else {
-  			      solution += total + '\n'
-  			    }
-  			  }
   			}
+
+  			  if (countPos) {
+  			    total += (countPos * countPos + countPos) / 2
+  			    solution += total + '\n'
+  			  } else if (countNeg) {
+  			    total += -((countNeg * countNeg + countNeg) / 2)
+  			    solution += total + '\n'
+  			  } else {
+  			    solution += total + '\n'
+  			  }
 
   			arr.shift()
   			arr.push(converted[i])
@@ -68,7 +65,7 @@ function solve(n, wind, price) {
   		}; break;
   	}
   }
-  // console.log(solution)
+  console.log(solution)
   fs.writeFile('output', solution, function (err) {
     if (err) throw err;
   });
