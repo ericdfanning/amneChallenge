@@ -44,13 +44,11 @@ function solve(n, wind, price) {
 
       if (countPos) {
         total += (countPos * countPos + countPos) / 2
-        solution += total + '\n'
       } else if (countNeg) {
         total += -((countNeg * countNeg + countNeg) / 2)
-        solution += total + '\n'
-      } else {
-        solution += total + '\n'
       }
+      
+      solution += total + '\n'
 
       arr.shift()
       arr.push(converted[i])
