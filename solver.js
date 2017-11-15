@@ -43,24 +43,22 @@ function solve(n, wind, price) {
             countPos = 0
           } 
         }
-
-        if (i === arr.length - 1) {
-          if (countPos) {
-            total += (countPos * countPos + countPos) / 2
-            solution += total + '\n'
-          } else if (countNeg) {
-            total += -((countNeg * countNeg + countNeg) / 2)
-            solution += total + '\n'
-          } else {
-            solution += total + '\n'
-          }
-        }
+      }
+      if (countPos) {
+        total += (countPos * countPos + countPos) / 2
+        solution += total + '\n'
+      } else if (countNeg) {
+        total += -((countNeg * countNeg + countNeg) / 2)
+        solution += total + '\n'
+      } else {
+        solution += total + '\n'
       }
 
       arr.shift()
       arr.push(converted[i])
     }
   }
+  // console.log(solution)
   fs.writeFile('output', solution, function (err) {
     if (err) throw err;
   });
