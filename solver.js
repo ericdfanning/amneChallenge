@@ -24,9 +24,9 @@ function solve(n, wind, price) {
     if (arr.length < wind - 1) {
       arr.push(converted[i])
     } else {
-      var countPos = 0
-      var countNeg = 0
-      var total = 0
+      let countPos = 0
+      let countNeg = 0
+      let total = 0
 
       for (let i = 0; i < arr.length; i++) {
 
@@ -47,12 +47,12 @@ function solve(n, wind, price) {
         if (i === arr.length - 1) {
           if (countPos) {
             total += (countPos * countPos + countPos) / 2
-            // solution += total + '\n'
+            solution += total + '\n'
           } else if (countNeg) {
             total += -((countNeg * countNeg + countNeg) / 2)
-            // solution += total + '\n'
+            solution += total + '\n'
           } else {
-            // solution += total + '\n'
+            solution += total + '\n'
           }
         }
       }
