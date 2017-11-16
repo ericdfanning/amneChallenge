@@ -5,7 +5,7 @@ const a = 'amneExampleInput'
 const b = 'input2'
 const c = 'maxInput'
 
-var file = b
+var file = c
 
 fs.readFile(file, 'utf8', function(err, contents) {
   let firstLine = contents.split('\n')[0]
@@ -21,52 +21,77 @@ function solve(n, wind, prices) {
   // console.log('converted', converted)
   wind = wind - 1
   var solution = ''
+  var solutionLength = 0
   var total = 0
   var obj = {}
   var count = 0
+  var indexOfConverted = 0
+  for (let j = 0; j < prices.length - wind + 2; j++) {
 
-  for (let i = 0; i < prices.length - wind + 2; i++) {
-  	if (converted[converted.length - 1] === 0) {
+  	if (solutionLength === (n - (wind + 1) + 1)) {
   		break
   	}
-  	// console.log('new converted', converted)
-	  while (total < wind) {
-			// total++
-  		// console.log('not reached yet')
-  		if (Math.abs(converted[i]) > wind) {
-  			// console.log('first', converted[i], a)
-  			total += wind
-  			// console.log('total is', total)
-  			if (converted[i] > 0) {
-  			  obj[count] = (wind * wind + wind) / 2
-  			} else {
-  				obj[count] = -((wind * wind + wind) / 2)
-  			}
+  	// console.log('array going in', converted)
+
+  	for (let i = 0; i < converted.length; i++) {
+  		if (total === wind) {
+  			break
   		} else {
-  			// console.log('second', total)
-  			total += Math.abs(converted[i])
-  			obj[count] = converted[i]
+	  		// console.log('not reached yet')
+	  		if (Math.abs(converted[i]) > wind - total) {
+	  			let b = wind - total
+	  			// console.log('first', total, Math.abs(converted[i]))
+	  			total += wind - total
+	  			// console.log('after first', b)
+	  			if (converted[i] > 0) {
+	  			  obj[count] = (b * b + b) / 2
+	  			  // console.log('FIRST POSITIVE OBJECT', obj)
+	  			} else {
+	  				obj[count] = -((b * b + b) / 2)
+	  				// console.log('FIRST NEGATIVE OBJECT', obj)
+	  			}
+	  		} else {
+	  			// console.log('second', converted[i], 'total', total, 'window', wind)
+	  			total += Math.abs(converted[i])
+	  			let b = Math.abs(converted[i])
+	  			if (converted[i] > 0) {
+	  			  obj[count] = (b * b + b) / 2
+	  			  // console.log('SECOND POSITIVE OBJECT', obj)
+	  			} else {
+	  				obj[count] = -((b * b + b) / 2)
+	  				// console.log('SECOND NEGATIVE OBJECT', obj)
+	  			}
+	  			// console.log('SECOND OBJECT', obj)
+	  		}
   		}
-	  }
+  		count++
+  	}
 
 		let sum = 0
+
 		for (let key in obj) {
 			sum += obj[key]
 		}
-		solution += '\n' + sum
+
+	  solution += '\n' + sum
+		solutionLength++
 
 		total = 0
 		count = 0
 
-	  if (converted[i] > 0) {
-	  	converted[i] = converted[i] - 1
-	  } else if (converted[i] < 0) {
-	  	converted[i] = converted[i] + 1
-	  }
+
+		if (Math.abs(converted[indexOfConverted]) === 0) {
+			indexOfConverted++
+		} 
+
+		if (converted[indexOfConverted] > 0) {
+			converted[indexOfConverted] = converted[indexOfConverted] - 1
+		} else if (converted[indexOfConverted] < 0) {
+			converted[indexOfConverted] = converted[indexOfConverted] + 1
+		}
 	}
-  console.log(solution)
-  // console.log('temp', temp)
-  // console.log('changing converted', converted)
+  // console.log(solution)
+
   fs.writeFile('output', solution, function (err) {
     if (err) throw err;
   });
