@@ -18,20 +18,15 @@ fs.readFile(file, 'utf8', function(err, contents) {
 
 function solve(n, wind, prices) {
   var converted = helper(n, prices)
-  // console.log('converted', converted)
+
   wind = wind - 1
   var solution = ''
-  var solutionLength = 0
+
   var total = 0
   var obj = {}
   var count = 0
   var indexOfConverted = 0
-  for (let j = 0; j < prices.length - wind + 2; j++) {
-
-  	if (solutionLength === (n - (wind + 1) + 1)) {
-  		break
-  	}
-  	// console.log('array going in', converted)
+  for (let j = 0; j < (n - (wind + 1) + 1); j++) {
 
   	for (let i = 0; i < converted.length; i++) {
   		if (total === wind) {
@@ -74,11 +69,9 @@ function solve(n, wind, prices) {
 		}
 
 	  solution += '\n' + sum
-		solutionLength++
 
 		total = 0
 		count = 0
-
 
 		if (Math.abs(converted[indexOfConverted]) === 0) {
 			indexOfConverted++
