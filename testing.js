@@ -5,7 +5,7 @@ const a = 'amneExampleInput'
 const b = 'input2'
 const c = 'maxInput'
 
-var file = c
+var file = b
 
 fs.readFile(file, 'utf8', function(err, contents) {
   let firstLine = contents.split('\n')[0]
@@ -18,7 +18,7 @@ fs.readFile(file, 'utf8', function(err, contents) {
 
 function solve(n, wind, prices) {
   var converted = helper(n, prices)
-
+  console.log('converted', converted)
   wind = wind - 1
   var solution = ''
 
@@ -32,35 +32,27 @@ function solve(n, wind, prices) {
   		if (total === wind) {
   			break
   		} else {
-	  		// console.log('not reached yet')
 	  		if (Math.abs(converted[i]) > wind - total) {
 	  			let b = wind - total
-	  			// console.log('first', total, Math.abs(converted[i]))
 	  			total += wind - total
-	  			// console.log('after first', b)
 	  			if (converted[i] > 0) {
 	  			  obj[count] = (b * b + b) / 2
-	  			  // console.log('FIRST POSITIVE OBJECT', obj)
 	  			} else {
 	  				obj[count] = -((b * b + b) / 2)
-	  				// console.log('FIRST NEGATIVE OBJECT', obj)
 	  			}
 	  		} else {
-	  			// console.log('second', converted[i], 'total', total, 'window', wind)
 	  			total += Math.abs(converted[i])
 	  			let b = Math.abs(converted[i])
 	  			if (converted[i] > 0) {
 	  			  obj[count] = (b * b + b) / 2
-	  			  // console.log('SECOND POSITIVE OBJECT', obj)
 	  			} else {
 	  				obj[count] = -((b * b + b) / 2)
-	  				// console.log('SECOND NEGATIVE OBJECT', obj)
 	  			}
-	  			// console.log('SECOND OBJECT', obj)
 	  		}
   		}
   		count++
   	}
+  	// console.log('IT RAN', j)
 
 		let sum = 0
 

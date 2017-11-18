@@ -1,11 +1,10 @@
 var fs = require('fs');
- 
-// change name of file to test different input
+
 const a = 'amneExampleInput'
 const b = 'input2'
 const c = 'maxInput'
 
-var file = c
+var file = b
 
 fs.readFile(file, 'utf8', function(err, contents) {
   let firstLine = contents.split('\n')[0]
@@ -17,16 +16,16 @@ fs.readFile(file, 'utf8', function(err, contents) {
 });
 
 function solve(n, wind, price) {
-  var converted = helper(n, price)
-  var arr = converted.slice(0, wind - 1)
-  var solution = ''
+  let converted = helper(n, price)
+  let arr = converted.slice(0, wind - 1)
+  let solution = ''
   for (let i = wind - 1; i < n; i++) {
       let countPos = 0
       let countNeg = 0
       let total = 0
 
       for (let i = 0; i < arr.length; i++) {
-
+        console.log('arr', arr)
         if (arr[i] > 0) {
           countPos++
           if (countNeg > 0) {
@@ -53,7 +52,7 @@ function solve(n, wind, price) {
       arr.shift()
       arr.push(converted[i])
   }
-  // console.log(solution)
+  console.log(solution)
   fs.writeFile('output', solution, function (err) {
     if (err) throw err;
   });
@@ -73,13 +72,10 @@ function helper(n, prices) {
       }
       
       if (prices[i] > prices[i + 1]) { 
-        // -1
         converted.push(-1)
       } else if (prices[i] < prices[i + 1]) {
-        // 1
         converted.push(1)
       } else if (prices[i + 1] === prices[i + 1]) { 
-        // 0
         converted.push(0)
       }
     }
