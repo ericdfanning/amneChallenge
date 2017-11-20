@@ -25,7 +25,6 @@ function solve(n, wind, price) {
       let total = 0
 
       for (let i = 0; i < arr.length; i++) {
-        console.log('arr', arr)
         if (arr[i] > 0) {
           countPos++
           if (countNeg > 0) {
