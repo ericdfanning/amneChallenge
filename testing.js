@@ -5,7 +5,7 @@ const a = 'amneExampleInput'
 const b = 'input2'
 const c = 'maxInput'
 
-var file = a
+var file = b
 
 fs.readFile(file, 'utf8', function(err, contents) {
   let firstLine = contents.split('\n')[0]

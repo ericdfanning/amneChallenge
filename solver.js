@@ -51,7 +51,7 @@ function solve(n, wind, price) {
       arr.shift()
       arr.push(converted[i])
   }
-  console.log(solution)
+  console.log(solution) 
   fs.writeFile('output', solution, function (err) {
     if (err) throw err;
   });
