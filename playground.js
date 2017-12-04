@@ -23,38 +23,43 @@ function solve(n, wind, prices) {
   let revamp = startingObject
   let ranges = converted.ranges
   let count = 0
-  if (ranges[0].length < wind) {
-    count = 1
+  if (ranges.length) {
+    if (ranges[0].length < wind) {
+      count = 1
+    }
   }
   solution += revamp.sum + '\n'
-// console.log('beginning solution', ranges)
 
   for (let i = wind; i < prices.length; i++) {
-  	// console.log('starting object\n', i, prices.length, revamp)
+  	console.log('starting object\n', i, prices.length, revamp)
   	let newObj = {}
-    // console.log('the beginning of the window', prices[i + 1 - (wind - 1)], prices[i + 1  - (wind)])
+    console.log('the beginning of the window', prices[i + 1 - (wind - 1)], prices[i + 1  - (wind)])
 
-    if (prices[i + 1 - (wind - 1)] === prices[i + 1  - (wind)] && revamp.begnLength !== 1 && count < ranges.length) {
+    if (prices[i + 1 - (wind - 1)] === prices[i + 1  - (wind)] && revamp.begnLength !== 1) {
       newObj.begConvrtVal = revamp.begConvrtVal
       newObj.begnLength = revamp.begnLength
       newObj.sum = revamp.sum
 
-      let nexRng = ranges[count]
-      // console.log('lkajsd;lkl;kajsdl;fkas    ---', nexRng[1], nexRng[0], nexRng)
-      if (nexRng[1] < nexRng[0]) { // check if incoming number is < || >
-        newObj.begConvrtVal = 0
-        newObj.sum -= doTheMath(newObj.begnLength - 1)
-        // console.log('*********  less than ', newObj.begConvrtVal)
-      } else if (nexRng[1] > nexRng[0]) {
-        newObj.begConvrtVal = 0
-        newObj.sum += doTheMath(newObj.begnLength - 1)
-        // console.log('*********  greater than ', newObj.begConvrtVal)
-      } else {
-        newObj.begConvrtVal = 0
-        // console.log('*********  equal ', newObj.begConvrtVal)
+      if (ranges.length) {
+        let nexRng = ranges[count]
+        console.log('lkajsd;lkl;kajsdl;fkas    ---', nexRng[1], nexRng[0], nexRng)
+        if (nexRng[1] < nexRng[0]) { // check if incoming number is < || >
+          newObj.begConvrtVal = 0
+          newObj.sum -= doTheMath(newObj.begnLength - 1)
+          console.log('*********  less than ', newObj.begConvrtVal)
+        } else if (nexRng[1] > nexRng[0]) {
+          newObj.begConvrtVal = 0
+          newObj.sum += doTheMath(newObj.begnLength - 1)
+          console.log('*********  greater than ', newObj.begConvrtVal)
+        } else {
+          newObj.begConvrtVal = 0
+          newObj.sum = 0
+          newObj.begnLength = 0
+          console.log('*********  equal ', newObj.begConvrtVal)
+        }
       }
 
-      // console.log('INSIDE EQUALITY', 'ranges', ranges[count], newObj.sum, newObj.begConvrtVal, newObj.begnLength)
+      console.log('INSIDE EQUALITY', 'ranges', ranges[count], newObj.sum, newObj.begConvrtVal, newObj.begnLength)
     } else {
 
       if (revamp.begConvrtVal > 0) {
@@ -68,7 +73,7 @@ function solve(n, wind, prices) {
       }
 
       if (revamp.begnLength >= 2) {
-    		// console.log('BEGINNING LENGTH IS 2 or GREATER.', 'length:', newObj.begnLength, newObj.sum)
+    		console.log('BEGINNING LENGTH IS 2 or GREATER.', 'length:', newObj.begnLength, newObj.sum)
     		newObj.begConvrtVal = doTheMath(newObj.begnLength - 1)
 
     		if (revamp.begConvrtVal > 0) {
@@ -84,22 +89,22 @@ function solve(n, wind, prices) {
     		}
 
     	} else if (revamp.begnLength === 1 && count < ranges.length) {
-    		// console.log('INSIDE index', count)
+    		console.log('INSIDE index', count)
 
     		newObj.begnLength = ranges[count].length
-    		// console.log('INSIDE RANGE & LENGTH', newObj.begnLength, ranges[count])
+    		console.log('INSIDE RANGE & LENGTH', newObj.begnLength, ranges[count])
 
     		let nexRng = ranges[count]
-    		// console.log('lkajsd;lkl;kajsdl;fkas    ---', nexRng[1], nexRng[0], nexRng)
+    		console.log('lkajsd;lkl;kajsdl;fkas    ---', nexRng[1], nexRng[0], nexRng)
     		if (nexRng[1] < nexRng[0]) { // check if incoming number is < || >
     			newObj.begConvrtVal = -doTheMath(newObj.begnLength - 1)
-    			// console.log('*********  less than ', newObj.begConvrtVal)
+    			console.log('*********  less than ', newObj.begConvrtVal)
     		} else if (nexRng[1] > nexRng[0]) {
     			newObj.begConvrtVal = doTheMath(newObj.begnLength - 1)
-    			// console.log('*********  greater than ', newObj.begConvrtVal)
+    			console.log('*********  greater than ', newObj.begConvrtVal)
     		} else {
     			newObj.begConvrtVal = 0
-    			// console.log('*********  equal ', newObj.begConvrtVal)
+    			console.log('*********  equal ', newObj.begConvrtVal)
     		}
 
     		if (count < ranges.length - 1) {
@@ -125,7 +130,7 @@ function solve(n, wind, prices) {
   		// console.log('one sum', newObj.sum)
   		newObj.sum += newObj.endConvrtVal 
 
-  		// console.log('ONE', newObj.sum)
+  		console.log('ONE', newObj.sum)
   	} else if (Number(prices[i]) < revamp.endNumber && revamp.endConvrtVal < 0) {
 	  		if (ranges.length > 1) {
           // newObj.endLength = revamp.endLength + 1
@@ -143,14 +148,14 @@ function solve(n, wind, prices) {
           }
 		  	} else {
 		  		if (count <= wind) {
-		  			// console.log('ADDED BEGN BACK ON inside two')
+		  			console.log('ADDED BEGN BACK ON inside two')
 		  			newObj.begnLength += 1
 		  			newObj.begConvrtVal = revamp.begConvrtVal
 		  			newObj.endLength = revamp.endLength
 		  			newObj.sum = revamp.endConvrtVal 
 		  			newObj.endConvrtVal = revamp.endConvrtVal
 		  		} else {
-			  		// console.log('ranges less than one ###')
+			  		console.log('ranges less than one ###')
 						newObj.endLength = revamp.endLength + 1
 						newObj.endConvrtVal = -doTheMath(newObj.endLength - 1)
 						newObj.sum += revamp.endConvrtVal * -1
@@ -162,7 +167,7 @@ function solve(n, wind, prices) {
 		  		newObj.begnLength = wind
 		  		newObj.begConvrtVal = newObj.endConvrtVal
 		  	}
-  		// console.log('TWO', newObj.sum)
+  		console.log('TWO', newObj.sum)
 
   	} else if (Number(prices[i]) > revamp.endNumber && revamp.endConvrtVal < 0) {
 
@@ -170,7 +175,7 @@ function solve(n, wind, prices) {
   		newObj.endConvrtVal = doTheMath(newObj.endLength - 1)
   		newObj.sum += newObj.endConvrtVal 
 
-  		// console.log('THREE', newObj.sum)
+  		console.log('THREE', newObj.sum)
 
   	} else if (Number(prices[i]) > revamp.endNumber && revamp.endConvrtVal > 0) {
   		// console.log('length ....... ', revamp.endLength, ranges.length)
@@ -210,22 +215,22 @@ function solve(n, wind, prices) {
   			newObj.begConvrtVal = newObj.endConvrtVal
   		}
 
-  		// console.log('FOUR', newObj.sum)
+  		console.log('FOUR', newObj.sum)
 
   	} else if (Number(prices[i]) === revamp.endNumber) {
-  		newObj.endLength = revamp.endLength = 0
-  		newObj.endConvrtVal = revamp.endConvrtVal
+  		newObj.endLength = 0
+  		newObj.endConvrtVal = 0
 
-  		// console.log('ZERO', newObj.sum)
+  		console.log('ZERO', newObj.sum, newObj)
   	}
   	newObj.endNumber = Number(prices[i])
   	solution += newObj.sum + '\n'
   	revamp = Object.assign({}, newObj)
-  	// console.log('ITERATION', newObj)
+  	console.log('ITERATION', newObj)
 
   }
-  // console.log('FINAL OUTPUT', solution)
-  fs.writeFile('output', solution, function (err) {
+  console.log('FINAL OUTPUT', solution)
+  fs.writeFile('output2', solution, function (err) {
     if (err) throw err;
   });
 
@@ -444,9 +449,6 @@ function makeFirstObject(wind, prices) {
   let total;
   let revamp = {}
 
-
-  //***** try changing the increasing and decreasing arrays into integers since I only need the length
-
   for (let i = 0; i < prices.length ; i++) {
 
     prices[i] = Number(prices[i])
@@ -483,7 +485,6 @@ function makeFirstObject(wind, prices) {
       decreasing.push(prices[i])
 
     } else if (Number(prices[i + 1]) === prices[i]) {
-
       if (increasing.length) {
         total = doTheMath(increasing.length)
         count += total
@@ -507,6 +508,12 @@ function makeFirstObject(wind, prices) {
         }
         decreasing.push(prices[i])
         decreasing = []
+      } else {
+        if (!revamp.begnLength) {
+
+          revamp.begConvrtVal = 0
+          revamp.begnLength = 0
+        }
       }
     }
 
@@ -540,11 +547,16 @@ function makeFirstObject(wind, prices) {
         revamp.endConvrtVal = -total
         revamp.endLength = decreasing.length
         revamp.endNumber = prices[i]
+      } else {
+        revamp.endConvrtVal = 0
+        revamp.endLength = 0
+        revamp.endNumber = prices[i]
       }
     }
   }
 
   revamp.sum = count
+
   return revamp
 }
 
